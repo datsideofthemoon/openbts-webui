@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>OpenBTS</title>
+  <link rel="stylesheet" type="text/css" href="/media/style.css" />
+</head>
+<body>
+<div id="left">
+	<img src="/media/logo.png" />
+	<div id="menu">
+		<ul class="menu">
+			<li><a href="/webgui/wizard/" {% if pagename == "Wizard" %}class="active"{% endif %}><span>Wizard</span></a></li>
+			<li><a href="/webgui/main/" {% if pagename == "Main" %}class="active"{% endif %}><span>Main</span></a></li>
+			<li><a href="/webgui/advanced/" {% if pagename == "Advanced" %}class="active"{% endif %}><span>Advanced</span></a></li>
+			<li><a href="/webgui/status/" {% if pagename == "Status" %}class="active"{% endif %}><span>Live Status</span></a></li>
+			<li><a href="/webgui/actions/" {% if pagename == "Actions" %}class="active"{% endif %}><span>Actions</span></a></li>
+		</ul>
+	</div>
+	<div>
+		<ul class="menu">
+			<li><a href="/webgui/sipauthserve" {% if pagename == "Sipauthserve" %}class="active"{% endif %}><span>Sipauthserve</span></a></li>
+			<li><a href="/webgui/smqueue" {% if pagename == "Smqueue" %}class="active"{% endif %}><span>Smqueue</span></a></li>
+		</ul>
+	</div>
+</div>
+<div id="header"><h1>{{ pagename }}</h1></div>
+<div id="content">
+{% for section in sectionlist %}
+<h2>{{ section.name }}</h2>
+<form method="post" action="/webgui/savedata/">
+<table>
+	{% for item in section.paramlist %}
+	<tr><td class="parameter">{{ item.keystring }}</td>
+		<td>
+		<input type="text" 
+		name="{{ item.keystring }}" 
+		value="{% if item.valuestring %}{{ item.valuestring }}{% else %}[NULL]{% endif %}" 
+		class="input">
+		</td>
+	</tr>
+	<tr><td class="comment">{{ item.comments }}</td></tr>
+	{% endfor %}
+	<tr><td><input type="submit" value="Save" class="btnsave"></td></tr>
+</table>
+</form>
+{% endfor%}
+</div>
+</body>
+</html>
