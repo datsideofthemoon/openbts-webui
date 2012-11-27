@@ -16,9 +16,9 @@
 from django.http import HttpResponseNotFound
 from webgui.models import Parameter
 import sqlite3
-import sys
 from django.shortcuts import render_to_response
 from django.conf import settings
+from django.db import connection, transaction
 
 class Section:
 	def __init__(self,fname,fparamlist):
@@ -26,28 +26,50 @@ class Section:
 		self.paramlist = fparamlist
 
 def main(request):
+	if request.method == 'POST':
+		cursor = connection.cursor()
+		for key, value in request.POST.iteritems():
+			if value=="[NULL]" :
+				value = "null"
+			cursor.execute("UPDATE CONFIG SET VALUESTRING = %s WHERE KEYSTRING = %s", [value,key])
+			transaction.commit_unless_managed()
+
 	table=Parameter.objects.all() 
 	datalist=[]
-	for section in settings.SECTIONS:
-		section_name=section[0]
-		paramlist=section[1]
+	for section in settings.MAIN_SECTIONS:
+		section_name=section[0] #section name
+		paramlist=section[1]	#parameters
+		nameslist=section[2]	#parameters names
 		tempparams=[]
-		for param in paramlist:
+		for idx, param in enumerate(paramlist):
 			for row in table:
-				if row.keystring == param: #find keystring in table
-					tempparams.append(row) #append .parameter, .value, .comment to output list
+				if row.keystring == param:
+					tempparams.append([row.keystring,nameslist[idx],row.valuestring,row.comments])
 					break
 		datalist.append(Section(section_name,tempparams))
-	return render_to_response('template.html', {
+	return render_to_response('main.html', {
 		'pagename': "Main",
 		'sectionlist': datalist,
 		})
 
 def advanced(request):
-	return render_to_response('template.html', {
-		'pagename': "Advanced",
-		'itemlist': "advanced",
-		})
+	if request.method == 'POST':
+		cursor = connection.cursor()
+		for key, value in request.POST.iteritems():
+			if value=="[NULL]" :
+				value="null"
+			cursor.execute("UPDATE CONFIG SET VALUESTRING = %s WHERE KEYSTRING = %s", [value,key])
+			transaction.commit_unless_managed()
+			
+	table=Parameter.objects.all() 
+	datalist=[]
+	for prefix in settings.ADV_PREFIXES:
+		tempparams=[]
+		for row in table:
+			if row.keystring.startswith(prefix): #find keystring in table by prefix
+				tempparams.append(row) #append .parameter, .value, .comment to output list
+		datalist.append(Section(prefix,tempparams))
+	return render_to_response('advanced.html', {'pagename': "Advanced",	'sectionlist': datalist,})
 		
 def status(request):
 	return render_to_response('template.html', {
@@ -59,9 +81,3 @@ def actions(request):
 		'pagename': "Actions",
 		'itemlist': "actions",
 		})
-def savedata(request):
-	if request.method == 'POST':
-		return render_to_response('template.html', {
-			'pagename': "Savedata",
-			'itemlist': "savedata",
-			})

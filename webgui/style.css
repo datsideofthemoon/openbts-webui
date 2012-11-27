@@ -15,8 +15,9 @@ h1
 }
 h2
 {
+
 margin: 0px;
-font: bold 14pt/12pt sans-serif;
+font: bold 11pt/11pt sans-serif;
 background-color: #C8EDFF;
 padding: 10px;
 }
@@ -38,11 +39,16 @@ height: 40px;
 }
 #content 
 {
-	padding:10px;
-    margin-left: 200px;
-    
+margin-left: 200px;
+   
     background: white;
 }
+#slider
+{
+padding:6px;
+
+}
+
 .comment
 {
 font: 8pt/9pt sans-serif;
@@ -70,3 +76,15 @@ margin-bottom:16px;
 .menu li a:hover{background:url('verMenuImages.png') 0px -40px no-repeat; color:rgb(255,255,255);}
 .menu li a.active, .menu li a.active:hover{background:url('verMenuImages.png') 0px -80px no-repeat; color:rgb(255,255,255);}
 .menu li a span{line-height:40px;         }
+
+}
+.content 
+{
+overflow:hidden;
+}
+
+.header {
+	cursor:pointer;
+	margin-bottom:5px;
+}
+

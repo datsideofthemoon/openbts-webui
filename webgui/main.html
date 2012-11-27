@@ -3,13 +3,14 @@
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>OpenBTS</title>
-  <link rel="stylesheet" type="text/css" href="/media/style.css" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>OpenBTS</title>
+	<link rel="stylesheet" type="text/css" href="/media/style.css" />
+	<script type="text/javascript" src="/media/slider.js"></script>
 </head>
-<body>
+<body onload="slider('slider',0)">
 <div id="left">
-	<img src="/media/logo.png" />
+	<img src="/media/logo.png" alt="OpenBTS"/>
 	<div id="menu">
 		<ul class="menu">
 			<li><a href="/webgui/wizard/" {% if pagename == "Wizard" %}class="active"{% endif %}><span>Wizard</span></a></li>
@@ -28,25 +29,27 @@
 </div>
 <div id="header"><h1>{{ pagename }}</h1></div>
 <div id="content">
+<div id="slider">
 {% for section in sectionlist %}
-<h2>{{ section.name }}</h2>
-<form method="post" action="/webgui/savedata/">
-<table>
-	{% for item in section.paramlist %}
-	<tr><td class="parameter">{{ item.keystring }}</td>
-		<td>
-		<input type="text" 
-		name="{{ item.keystring }}" 
-		value="{% if item.valuestring %}{{ item.valuestring }}{% else %}[NULL]{% endif %}" 
-		class="input">
-		</td>
-	</tr>
-	<tr><td class="comment">{{ item.comments }}</td></tr>
-	{% endfor %}
-	<tr><td><input type="submit" value="Save" class="btnsave"></td></tr>
-</table>
-</form>
-{% endfor%}
+	<div class="header" id="{{ forloop.counter }}-header"><h2>{{ section.name }}</h2></div>
+	<div class="content" id="{{ forloop.counter }}-content">
+		<form method="post" action="/webgui/main/">
+			<table>
+				{% for item in section.paramlist %}
+				<tr>
+					<td class="parameter">{{ item.1 }}</td>
+					<td><input type="text" name="{{ item.0 }}" value="{% if item.2 %}{{ item.2 }}{% else %}[NULL]{% endif %}" class="input"/></td>
+				</tr>
+				<tr><td class="comment">{{ item.3 }}</td></tr>
+				{% endfor %}
+				<tr>
+					<td><input type="submit" value="Save" class="btnsave"/></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+{% endfor %}
+</div>
 </div>
 </body>
 </html>

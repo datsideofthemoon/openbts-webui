@@ -15,7 +15,7 @@
 
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
-from mysite.webgui.views import main, advanced, status, actions, savedata
+from mysite.webgui.views import main, advanced, status, actions
 from django.conf import settings
 admin.autodiscover()
 
@@ -34,5 +34,4 @@ urlpatterns = patterns('',
     url(r'^webgui/advanced/', advanced),
     url(r'^webgui/status/', status),
     url(r'^webgui/actions/', actions),
-    url(r'^webgui/savedata/', savedata),
 )
