@@ -62,7 +62,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'OpenBTS.db',                      # Or path to database file if using sqlite3.
+        'NAME': '/etc/OpenBTS/OpenBTS.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -95,7 +95,7 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/home/digiman/django/mysite/webgui'
+MEDIA_ROOT = '/home/digiman/django/mysite/webgui/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -119,7 +119,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    "/home/digiman/django/mysite/webgui", 
+    "/home/digiman/django/mysite/static", 
 )
 
 # List of finder classes that know how to find static files in
@@ -151,7 +151,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATE_DIRS = (
-    "/home/digiman/django/mysite/webgui", 
+    "/home/digiman/django/mysite/webgui/html", 
 )
 
 INSTALLED_APPS = (
@@ -166,6 +166,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'webgui',
+
 )
 
 # A sample logging configuration. The only tangible logging

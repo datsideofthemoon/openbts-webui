@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>OpenBTS</title>
+  <link rel="stylesheet" type="text/css" href="/media/css/style.css" />
+  <script type="text/javascript" src="/media/js/slider.js"></script>
+</head>
+<body onload="slider('slider',0)">
+	<div id='cssmenu'>
+		<ul>
+			<li {% if mastername == "OpenBTS" %}class="active"{% endif %}><a href='/webgui/main'><span>OpenBTS</span></a></li>
+			<li {% if mastername == "Smqueue" %}class="active"{% endif %}><a href='/smqueue'><span>Smqueue</span></a></li>
+			<li {% if mastername == "SubscriberRegistry" %}class="active"{% endif %}><a href='/subscriberregistry'><span>SubscriberRegistry</span></a></li>
+			<li {% if mastername == "FreeSwitch" %}class="active"{% endif %}><a href='/freeswitch'><span>FreeSwitch</span></a></li>
+		</ul>
+	</div>
+	<div id="left">
+		<ul class="menu">
+			<li><a href="/webgui/wizard" {% if pagename == "Wizard" %}class="active"{% endif %}><span>Wizard</span></a></li>
+			<li><a href="/webgui/main" {% if pagename == "Main" %}class="active"{% endif %}><span>Main</span></a></li>
+			<li><a href="/webgui/actions" {% if pagename == "Actions" %}class="active"{% endif %}><span>Actions</span></a></li>
+			<li><a href="/webgui/status" {% if pagename == "Status" %}class="active"{% endif %}><span>Live Status</span></a></li>
+			<li><a href="/webgui/advanced" {% if pagename == "Advanced" %}class="active"{% endif %}><span>Advanced</span></a></li>
+		</ul>
+	</div>
+<div id="content">
+{% for command in datalist %}
+<table>
+<tr><td><h2>{{ command.name }}</h2></td></tr>
+<tr><td>{{ command.text }}</td></tr>
+</table>
+{% endfor %}
+</div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+body
+{
+	background-color: #FFFFFF;
+	font: 12pt/10pt sans-serif;
+}
+#left
+{
+	width: 120px;
+	float:left;
+}
+#content 
+{
+	padding-top:4px;
+	padding-left:10px;
+	margin-left: 120px;
+    background: white;
+}
+.comment
+{
+	font: 8pt/9pt sans-serif;
+	width: 400px;
+	padding-bottom:16px;
+}
+.input
+{
+	width: 300px;
+}
+.parameter
+{
+	font: bold 10pt sans-serif;
+}
+.btnsave
+{
+	width: 100px; 
+	height: 30px; 
+	margin-bottom:16px;
+}
+h1 
+{
+	margin: 0px;
+	padding-left: 10px;
+	padding-top: 13px;
+	height: 30px;
+	color: #003366;
+	background-color: #99CCFF;
+}
+h2
+{
+	margin: 0px;
+	font: bold 11pt/11pt sans-serif;
+	background-color: #1d8ec9;
+	padding: 6px;
+	cursor: pointer;
+	border-bottom:10px black;
+	margin-bottom:1px;
+	color:white;
+}
+table
+{
+padding:0px;
+margin:0px;
+}
+/* TOP Menu CSS */ 
+#cssmenu, #cssmenu ul, #cssmenu ul li, #cssmenu ul li a{
+	padding: 0;
+	margin: 0;
+	line-height: 1;
+	font-family: 'Arial', sans-serif;
+}
+#cssmenu:before, #cssmenu:after, #cssmenu > ul:before, #cssmenu > ul:after {
+	content: '';
+	display: table;
+}
+#cssmenu:after, #cssmenu > ul:after {
+	clear: both;
+}
+#cssmenu {
+	zoom:1;
+	height: 69px;
+	background: url(../images/bottom-bg.png) repeat-x center bottom;
+	border-radius: 2px;
+}
+#cssmenu ul{
+	background: url(../images/nav-bg.png) repeat-x 0px 4px;
+	height: 69px;
+}
+#cssmenu ul li{
+	float: left;
+	list-style: none;
+}
+#cssmenu ul li a{
+	display: block;
+	height: 37px;
+	padding: 22px 30px 0;
+	margin: 4px 2px 0;
+	border-radius: 2px 2px 0 0;
+	text-decoration: none;
+	font-size: 15px;
+	color: black;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .75);
+	font-weight: 400;
+	opacity: .9;
+}
+#cssmenu ul li:first-child a{
+	margin: 4px 2px 0 0;
+}
+#cssmenu ul li a:hover, #cssmenu ul li.active a{
+	background: url(../images/color.png) center bottom;
+	display: block;
+	height: 37px;
+	margin-top: 0px;
+	padding-top: 26px;
+	color: white;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, .55);
+	opacity: 1;
+}
+
+/*left css menu*/
+.menu{margin:0; padding:0; width:125px; list-style:none;background:#1d8ec9;}
+.menu li{padding:0; margin:0 0 1px 0; height:40px; display:block; }
+.menu li a{text-shadow: 0 1px 1px rgba(0, 0, 0, .75); text-align:left;height:40px; padding:0px 25px; font:14px Arial, sans-serif; color:rgb(0,0,0); display:block; background:url('../images/verMenuImages.png') 0px 0px no-repeat; text-decoration:none;}
+.menu li a:hover{background:url('../images/verMenuImages.png') 0px -40px no-repeat; color:white;}
+.menu li a.active, .menu li a.active:hover{background:url('../images/verMenuImages.png') 0px -80px no-repeat; color:rgb(255,255,255);}
+.menu li a span{line-height:40px;}
+
+
+
+/*css jquery tabs*/
+div.tabs {
+background: #1d8ec9;
+padding: 4px;
+}
+
+div.container { 
+margin: auto; 
+width: 90%; 
+margin-bottom: 10px;
+}
+
+ul.tabNavigation {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+ul.tabNavigation li {
+display: inline;
+}
+
+ul.tabNavigation li a {
+padding: 3px 9px;
+background-color: #e7e7e7;
+color: #000;
+text-decoration: none;
+font:14px Arial, sans-serif;
+}
+
+ul.tabNavigation li a.selected,
+ul.tabNavigation li a.selected:hover {
+background: #1d8ec9;
+color: white;
+}
+
+ul.tabNavigation li a:hover {
+background: #ccc;
+color: #000;
+}
+
+ul.tabNavigation li a:focus {
+outline: 0;
+}
+div.tabs div {
+padding: 5px;
+margin-top: 3px;
+border: 1px solid #FFF;
+background: #FFF;
+}
+div.tabs div h2 {
+margin-top: 0;
+}
