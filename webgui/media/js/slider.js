@@ -40,7 +40,7 @@ function processClick(div) {
       contdiv.style.display = 'block';
       initSlide(cont,1);
     } else if(contdiv.style.display == 'block') {
-      initSlide(cont,-1);
+      //initSlide(cont,-1);
     }
   }
 }

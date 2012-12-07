@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="refresh" content="1" >
   <title>OpenBTS</title>
   <link rel="stylesheet" type="text/css" href="/media/css/style.css" />
   <script type="text/javascript" src="/media/js/slider.js"></script>
@@ -27,12 +28,102 @@
 		</ul>
 	</div>
 <div id="content">
-{% for command in datalist %}
-<table>
-<tr><td><h2>{{ command.name }}</h2></td></tr>
-<tr><td>{{ command.text }}</td></tr>
-</table>
-{% endfor %}
+{% if errorstr %}
+<h2>{{ errorstr }}</h2>
+{% endif %}
+{% if alarms %}
+	<div class="borderdiv">
+	<h2>Alarms</h2>
+	<table class="status">
+		{% for alarm in alarms %}
+		<tr><td>{{ alarm }}</td></tr>
+		{% endfor %}
+	</table>
+	</div>
+	</br>
+{% endif %}
+
+{% if cellid %}
+	<div class="borderdiv">
+	<h2>Cell ID</h2>
+	<table class="status">
+	<tr class="trheader"><td>MCC</td><td>{{cellid.0}}</td></tr>
+	<tr class="trheader"><td>MNC</td><td>{{cellid.1}}</td></tr>
+	<tr class="trheader"><td>LAC</td><td>{{cellid.2}}</td></tr>
+	<tr class="trheader"><td>CI</td><td>{{cellid.3}}</td></tr>
+	</table>
+	</div>
+{% endif %}
+
+{% if load %}
+	<div class="borderdiv">
+	<h2>Load</h2>
+	<table class="status">
+	<tr class="trheader"><td>SDCCH load</td><td>{{ load.0 }}</td></tr>
+	<tr class="trheader"><td>TCH/F load</td><td>{{ load.1 }}</td></tr>
+	<tr class="trheader"><td>AGCH/PCH load</td><td>{{ load.2 }}</td></tr>
+	<tr class="trheader"><td>Paging table size</td><td>{{ load.3 }}</td></tr>
+	<tr class="trheader"><td>Transactions/TMSIs</td><td>{{ load.4 }}</td></tr>
+	<tr class="trheader"><td>T3122</td><td>{{ load.5 }}</td></tr>
+	</table>
+	</div>
+{% endif %}
+
+{% if power %}
+	<div class="borderdiv">
+	<h2>Power</h2>
+	<table class="status">
+		{% for pow in power %}
+		<tr class="trheader"><td>{{ pow }}</td></tr>
+		{% endfor %}
+	</table>
+	</div>
+{% endif %}
+
+</br>
+
+{% if chans %}
+	<div class="borderdiv">
+	<h2>Channels</h2>
+	<table class="status">
+	<tr class="trheader"><td>CN</td><td>TN</td><td>Chan type</td><td>Transaction Id</td><td>UPFER pct</td><td>RSSI dB</td><td>TXPWR dBm</td><td>TXTA sym</td><td>DNLEV dBm</td><td>DNBER pct</td></tr>
+	{% for chan in chans %}
+	<tr><td>{{ chan.0 }}</td><td>{{ chan.1 }}</td><td>{{ chan.2 }}</td><td>{{ chan.3 }}</td><td>{{ chan.4 }}</td><td>{{ chan.5 }}</td><td>{{ chan.6 }}</td><td>{{ chan.7 }}</td><td>{{ chan.8 }}</td><td>{{ chan.9 }}</td></tr>
+	{% endfor %}
+	</table>
+	</div>
+	</br>
+{% endif %}
+
+{% if tmsis %}
+	<div class="borderdiv">
+	<h2>TMSIs</h2>
+	<table class="status">
+	<tr class="trheader"><td>TMSI</td><td>IMSI</td><td>Age</td><td>Used</td></tr>
+	{% for tmsi in tmsis %}
+		<tr><td>{{ tmsi.0 }}</td><td>{{ tmsi.1 }}</td><td>{{ tmsi.2 }}</td><td>{{ tmsi.3 }}</td></tr>
+	{% endfor %}
+	</table>
+	</div>
+			<!--<form action="/webgui/status/" method="post" style="height: 15px;padding:0;margin:0;">
+				<input type="submit" value="Clear TMSIs" style="padding:0;margin:0;"/>
+				</form>-->
+
+{% endif %}
+
+{% if calls %}
+	<div class="borderdiv">
+	<h2>Calls</h2>
+	<table class="status">
+	<tr class="trheader">
+	<td>Transaction ID</td><td>IMSI</td><td>SIP Call ID</td><td>Caller ID</td><td>GSM State</td><td>SIP State</td><td>Time</td></tr>
+	{% for call in calls %}
+	<tr><td>{{ call.0 }}</td><td>{{ call.1 }}</td><td>{{ call.2 }}</td><td>{{ call.3 }}</td><td>{{ call.4 }}</td><td>{{ call.5 }}</td><td>{{ call.6 }}</td></tr>
+	{% endfor %}
+	</table>
+	</div>
+	</br>
+{% endif %}
 </div>
 </body>
 </html>

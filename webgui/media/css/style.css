@@ -3,6 +3,7 @@ body
 	background-color: #FFFFFF;
 	font: 12pt/10pt sans-serif;
 }
+
 #left
 {
 	width: 120px;
@@ -40,6 +41,7 @@ h1
 	margin: 0px;
 	padding-left: 10px;
 	padding-top: 13px;
+	
 	height: 30px;
 	color: #003366;
 	background-color: #99CCFF;
@@ -51,15 +53,36 @@ h2
 	background-color: #1d8ec9;
 	padding: 6px;
 	cursor: pointer;
-	border-bottom:10px black;
+
 	margin-bottom:1px;
 	color:white;
 }
-table
+.borderdiv
 {
-padding:0px;
-margin:0px;
+display: inline-block;
+border:solid 2px #1d8ec9;
+margin-bottom:10px;
 }
+
+table.status
+{
+border-collapse: collapse;
+border :solid 2px #1d8ec9;
+font: 10pt sans-serif;
+}
+table.status td
+{
+padding:4px;
+border: solid 1px #1d8ec9;
+}
+.trheader td
+{
+padding:4px;
+
+background: #1d8ec9;
+color:white;
+}
+
 /* TOP Menu CSS */ 
 #cssmenu, #cssmenu ul, #cssmenu ul li, #cssmenu ul li a{
 	padding: 0;
