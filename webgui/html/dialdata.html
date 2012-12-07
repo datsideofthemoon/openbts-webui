@@ -3,12 +3,26 @@
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>OpenBTS</title>
-  <link rel="stylesheet" type="text/css" href="/media/css/style.css" />
-  <script type="text/javascript" src="/media/js/slider.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>OpenBTS</title>
+	<link rel="stylesheet" type="text/css" href="/media/css/style.css" />
+	<script src="/media/js/jquery.js" type="text/javascript"></script>
+	<script type="text/javascript">
+$(function () {
+    var tabContainers = $('div.tabs > div');
+    tabContainers.hide().filter(':first').show();
+    
+    $('div.tabs ul.tabNavigation a').click(function () {
+        tabContainers.hide();
+        tabContainers.filter(this.hash).show();
+        $('div.tabs ul.tabNavigation a').removeClass('selected');
+        $(this).addClass('selected');
+        return false;
+    }).filter(':first').click();
+});
+</script>
 </head>
-<body onload="slider('slider',0)">
+<body>
 	<div id='cssmenu'>
 		<ul>
 			<li {% if mastername == "OpenBTS" %}class="active"{% endif %}><a href='/webgui/main'><span>OpenBTS</span></a></li>
@@ -28,12 +42,17 @@
 		</ul>
 	</div>
 <div id="content">
-{% for command in datalist %}
-<table>
-<tr><td><h2>{{ command.name }}</h2></td></tr>
-<tr><td>{{ command.text }}</td></tr>
-</table>
-{% endfor %}
+{% if dialdata %}
+	<div class="borderdiv">
+	<h2>Dial Data</h2>
+	<table class="status">
+		<tr class="trheader"><td>Called ID</td><td>IMSI</td></tr>
+		{% for line in dialdata %}
+		<tr><td>{{ line.dialerid }}</td><td>{{ line.imsi }}</td></tr>
+		{% endfor %}
+	</table>
+	</div>
+{% endif %}
 </div>
 </body>
 </html>

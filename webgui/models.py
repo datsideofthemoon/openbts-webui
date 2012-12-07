@@ -29,3 +29,8 @@ class Parameter(models.Model):
 	class Meta:
 		db_table = 'CONFIG'
 
+class Dialdata(models.Model):
+	dialerid = models.CharField(max_length=40, primary_key=True, null=False, db_column='exten')
+	imsi = models.CharField(max_length=128, null=False, db_column='dial')
+	class Meta:
+		db_table = 'dialdata_table'

@@ -15,7 +15,7 @@
 
 import time, socket, os, re
 from django.conf import settings
-from webgui.models import Parameter
+from webgui.models import Parameter, Dialdata
 from django.db import connection, transaction
 from django.shortcuts import render_to_response
 from django.http import HttpResponseNotFound
@@ -223,4 +223,12 @@ def actions(request):
 		'mastername': "OpenBTS",
 		'pagename': "Actions",
 		'itemlist': "actions",
+		})
+		
+def dialdata(request):
+	dialdata=Dialdata.objects.using('asterisk').all()
+	return render_to_response('dialdata.html', {
+		'mastername': "OpenBTS",
+		'pagename': "Dial Data",
+		'dialdata': dialdata,
 		})

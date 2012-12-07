@@ -15,7 +15,7 @@
 
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
-from mysite.webgui.views import main, advanced, status, actions
+from mysite.webgui.views import main, advanced, status, actions, dialdata
 from django.conf import settings
 admin.autodiscover()
 
@@ -33,5 +33,6 @@ urlpatterns = patterns('',
     url(r'^webgui/main/', main),
     url(r'^webgui/advanced/', advanced),
     url(r'^webgui/status/', status),
+    url(r'^webgui/dialdata/', dialdata),
     url(r'^webgui/actions/', actions),
 )
