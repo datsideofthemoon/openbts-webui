@@ -23,10 +23,6 @@ from django.http import HttpResponseNotFound
 SOCKETNAME=''
 SOCK = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
 
-class StatusSection:
-	def __init__(self,fcname,fres):
-		self.name=fcname
-		self.text=fres
 class Section:
 	def __init__(self,fname,fparamlist):
 		self.name = fname
@@ -101,7 +97,98 @@ def get_cli_command(command):
 	except Exception, e:
 		return "Error: could not connect to OpenBTS." + ' receive: '+ str(e)
 	return data				#maybe close socket? delete tmp file?
+
+def parseAlarms(string):
+	return string.split('\n')
+
+def parseCalls(string):
+	calls=[]
+	callsList=string.split('\n')
+	callsList.pop()
+	callsList.pop()
+	callsList.pop()
+	if len(callsList)>0:
+		for call in callsList:
+			tempcall=call.split(' ')
+			cID=tempcall[0]
+					
+			cIMSI=tempcall[3].split('=')
+			cIMSI=cIMSI[1]
+					
+			cSIPID=tempcall[5].split('=')
+			cSIPID=cSIPID[1]
+					
+			cCID=tempcall[8].split('=')
+			cCID=cCID[1]
+					
+			cGSMState=tempcall[9].split('=')
+			cGSMState=cGSMState[1]
+					
+			cSIPState=tempcall[10].split('=')
+			cSIPState=cSIPState[1]
+					
+			cTime=tempcall[11]
+			cTime=cTime[1:]
+					
+			tempcall=[cID,cIMSI,cSIPID,cCID,cGSMState,cSIPState,cTime]
+			calls.append(tempcall)
+	else:
+		calls=' '		
+	return calls
+
+def parseCellID(string):
+	cellid=[]
+	for value in string.split(' '):
+		value=value.split('=')
+		cellid.append(value[1])
+	return cellid
+
+def parseChans(string):
+	chans=[]
+	string=re.sub(' +',' ',string)
+	chansList=string.split('\n')
+	del chansList[0]
+	del chansList[0]
+	chansList.pop()
+	chansList.pop()
+	if len(chansList)>0:
+		for idx,val in enumerate(chansList):
+			val=val.lstrip()
+			chans.append(val.split(' '))
+	else:
+		chans=" "
+	return chans
+
+def parseLoad(string):
+	load=[]
+	loadList=string.split('\n')
+	loadList.pop()
+	for param in loadList:
+		value=param.split(': ')
+		load.append(value[1])
+	return load
 	
+def parsePower(string):
+	power=[]
+	tmp=string.split('\n')
+	power.append(tmp[0])
+	power.append(tmp[1])
+	return power
+
+def parseTMSIs(string):
+	tmsis=[]
+	tmsisList=string.split('\n')
+	tmsisList.pop()
+	del tmsisList[0]
+	if len(tmsisList)>0:
+		for idx,val in enumerate(tmsisList):
+			val=re.sub(' +',' ',val) #replace multiple spaces with one
+			val=val.lstrip() #remove leading space
+			tmsis.append(val.split(' '))
+	else:
+		tmsis=" "
+	return tmsis
+
 def status(request):
 	if request.method == 'POST':
 		get_cli_command('tmsis clear')
@@ -120,91 +207,20 @@ def status(request):
 			'mastername': "OpenBTS",
 			'pagename': "Status",
 			'errorstr':res,})
-			
 		if command=='alarms':
-			alarms=res.split('\n')
-		
+			alarms=parseAlarms(res)
 		elif command=='calls':
-			calls=[]
-			res=res.split('\n')
-			res.pop()
-			res.pop()
-			res.pop()
-			if len(res)>0:
-				for call in res:
-					tempcall=call.split(' ')
-					cID=tempcall[0]
-					
-					cIMSI=tempcall[3].split('=')
-					cIMSI=cIMSI[1]
-					
-					cSIPID=tempcall[5].split('=')
-					cSIPID=cSIPID[1]
-					
-					cCID=tempcall[8].split('=')
-					cCID=cCID[1]
-					
-					cGSMState=tempcall[9].split('=')
-					cGSMState=cGSMState[1]
-					
-					cSIPState=tempcall[10].split('=')
-					cSIPState=cSIPState[1]
-					
-					cTime=tempcall[11]
-					cTime=cTime[1:]
-					
-					tempcall=[cID,cIMSI,cSIPID,cCID,cGSMState,cSIPState,cTime]
-					calls.append(tempcall)
-			else:
-				calls=' '		
-		
+			calls=parseCalls(res)
 		elif command=='cellid':
-			cellid=[]
-			for value in res.split(' '):
-				value=value.split('=')
-				cellid.append(value[1])
-
+			cellid=parseCellID(res)
 		elif command=='chans':
-			chans=[]
-			res=re.sub(' +',' ',res)
-			res=res.split('\n')
-			del res[0]
-			del res[0]
-			res.pop()
-			res.pop()
-			if len(res)>0:
-				for idx,val in enumerate(res):
-					val=val.lstrip()
-					chans.append(val.split(' '))
-			else:
-				chans=" "
-		
+			chans=parseChans(res)
 		elif command=='load':
-			load=[]
-			res=res.split('\n')
-			res.pop()
-			for param in res:
-				value=param.split(': ')
-				load.append(value[1])
-			
+			load=parseLoad(res)
 		elif command=='power':
-			power=[]
-			res=res.split('\n')
-			power.append(res[0])
-			power.append(res[1])
-			
+			power=parsePower(res)
 		elif command=='tmsis':
-			tmsis=[]
-			res=res.split('\n')
-			res.pop()
-			del res[0]
-			if len(res)>0:
-				for idx,val in enumerate(res):
-					val=re.sub(' +',' ',val) #replace multiple spaces with one
-					val=val.lstrip() #remove leading space
-					tmsis.append(val.split(' '))
-			else:
-				tmsis=" "	
+			tmsis=parseTMSIs(res)
 	
 	return render_to_response('status.html', {
 		'mastername': "OpenBTS",

@@ -46,7 +46,7 @@ $(function () {
 	<div class="borderdiv">
 	<h2>Dial Data</h2>
 	<table class="status">
-		<tr class="trheader"><td>Called ID</td><td>IMSI</td></tr>
+		<tr class="trheader"><td>Caller ID</td><td>IMSI</td></tr>
 		{% for line in dialdata %}
 		<tr><td>{{ line.dialerid }}</td><td>{{ line.imsi }}</td></tr>
 		{% endfor %}

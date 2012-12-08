@@ -14,10 +14,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf.urls.defaults import patterns, include, url
-from django.contrib import admin
-from mysite.webgui.views import main, advanced, status, actions, dialdata
+from webgui.views import main, advanced, status, actions, dialdata
 from django.conf import settings
-admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
@@ -29,7 +27,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-    url(r'^admin/', include(admin.site.urls)),
     url(r'^webgui/main/', main),
     url(r'^webgui/advanced/', advanced),
     url(r'^webgui/status/', status),
