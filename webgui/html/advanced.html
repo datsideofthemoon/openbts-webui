@@ -5,10 +5,21 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <title>OpenBTS - {{ pagename }}</title>
-  <link rel="stylesheet" type="text/css" href="/media/css/style.css" />
-  <script type="text/javascript" src="/media/js/slider.js"></script>
+  <script src="/media/js/jquery.js" type="text/javascript"></script>
+  <script type="text/javascript">
+	function loadTabs(){
+		var tabs = $('#tabs-titles li'); //grab tabs
+		var contents = $('#tabs-contents div'); //grab contents
+		tabs.bind('click',function(){
+		contents.hide(); //hide all contents
+		tabs.removeClass('current'); //remove 'current' classes
+		$(contents[$(this).index()]).show(); //show tab content that matches tab title index
+		$(this).addClass('current'); //add current class on clicked tab title
+	});}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/media/css/style.css" />
 </head>
-<body onload="slider('slider',0)">
+<body onload="loadTabs()">
 	<div id='cssmenu'>
 		<ul>
 			<li {% if mastername == "OpenBTS" %}class="active"{% endif %}><a href='/openbts/main'><span>OpenBTS</span></a></li>
@@ -17,8 +28,8 @@
 			<li {% if mastername == "FreeSwitch" %}class="active"{% endif %}><a href='/freeswitch'><span>FreeSwitch</span></a></li>
 		</ul>
 	</div>
-	<div id="left">
-		<ul class="menu">
+	<div id="submenu">
+		<ul class="submenu">
 			<li><a href="/openbts/wizard" {% if pagename == "Wizard" %}class="active"{% endif %}><span>Wizard</span></a></li>
 			<li><a href="/openbts/main" {% if pagename == "Main" %}class="active"{% endif %}><span>Main</span></a></li>
 			<li><a href="/openbts/actions" {% if pagename == "Actions" %}class="active"{% endif %}><span>Actions</span></a></li>
@@ -28,12 +39,17 @@
 		</ul>
 	</div>
 <div id="content">
-<div id="slider">
+{% if sectionlist %}
+<ul id="tabs-titles">
 {% for section in sectionlist %}
-	<div class="header" id="{{ forloop.counter }}-header"><h2>{{ section.name }}</h2></div>
-	<div class="content" id="{{ forloop.counter }}-content">
+	<li {% if forloop.first %}class="current"{% endif %}>{{ section.name }}</li>
+{% endfor %}
+</ul>
+<div id="tabs-contents">
+	{% for section in sectionlist %}
+		<div class="content">
 		<form method="post" action="/openbts/advanced/">
-				<table>
+			<table>
 				{% for item in section.paramlist %}
 					<tr>
 					<td class="parameter">{{ item.keystring }}</td>
@@ -48,11 +64,12 @@
 					<tr>
 						<td><input type="submit" value="Save" class="btnsave"/></td>
 					</tr>
-				</table>
+			</table>
 		</form>
-	</div>
-{% endfor %}
+		</div>
+	{% endfor %}
 </div>
+{% endif %}
 </div>
 </body>
 </html>

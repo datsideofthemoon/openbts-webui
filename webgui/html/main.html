@@ -31,8 +31,8 @@ $(function () {
 			<li {% if mastername == "FreeSwitch" %}class="active"{% endif %}><a href='/freeswitch'><span>FreeSwitch</span></a></li>
 		</ul>
 	</div>
-	<div id="left">
-		<ul class="menu">
+	<div id="submenu">
+		<ul class="submenu">
 			<li><a href="/openbts/wizard" {% if pagename == "Wizard" %}class="active"{% endif %}><span>Wizard</span></a></li>
 			<li><a href="/openbts/main" {% if pagename == "Main" %}class="active"{% endif %}><span>Main</span></a></li>
 			<li><a href="/openbts/actions" {% if pagename == "Actions" %}class="active"{% endif %}><span>Actions</span></a></li>
@@ -41,8 +41,6 @@ $(function () {
 			<li><a href="/openbts/advanced" {% if pagename == "Advanced" %}class="active"{% endif %}><span>Advanced</span></a></li>
 		</ul>
 	</div>
-
-
 <div id="content">
 	<div class="tabs">
 		<ul class="tabNavigation">
