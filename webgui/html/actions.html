@@ -5,9 +5,21 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <title>OpenBTS - {{ pagename }}</title>
-  <link rel="stylesheet" type="text/css" href="/media/css/style.css" />
+  <script src="/media/js/jquery.js" type="text/javascript"></script>
+  <script type="text/javascript">
+	function loadTabs(){
+		var tabs = $('#tabs-titles li'); //grab tabs
+		var contents = $('#tabs-contents div'); //grab contents
+		tabs.bind('click',function(){
+		contents.hide(); //hide all contents
+		tabs.removeClass('current'); //remove 'current' classes
+		$(contents[$(this).index()]).show(); //show tab content that matches tab title index
+		$(this).addClass('current'); //add current class on clicked tab title
+	});}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/media/css/style.css" />
 </head>
-<body>
+<body onload="loadTabs()">
 	<div id='cssmenu'>
 		<ul>
 			<li {% if mastername == "OpenBTS" %}class="active"{% endif %}><a href='/openbts/main'><span>OpenBTS</span></a></li>
@@ -27,12 +39,46 @@
 		</ul>
 	</div>
 <div id="content">
-{% for command in datalist %}
-<table>
-<tr><td><h2>{{ command.name }}</h2></td></tr>
-<tr><td>{{ command.text }}</td></tr>
-</table>
-{% endfor %}
+{% if error %}
+	<div class="borderdiv">
+		<h2>{{ error }}</h2>
+	</div>
+{% endif %}
+
+{% if sectionlist %}
+	<ul id="tabs-titles">
+		{% for command in sectionlist %}
+			<li {% if forloop.first %}class="current"{% endif %}>{{ command.name }}</li>
+		{% endfor %}
+	</ul>
+	<div id="tabs-contents">
+		{% for command in sectionlist %}
+			<div class="content">
+			<form method="post" action="/openbts/actions/">
+				
+				{% if command.param1name %}
+					<br/>
+					{{ command.param1name }}
+					<input type="text" name="{{ command.param1 }}" value=""/>
+				{% endif%}
+				{% if command.param2name %}
+					<br/>
+					{{ command.param2name }}
+					<input type="text" name="{{ command.param2 }}" value=""/>
+				{% endif%}
+				{% if command.param3name %}
+					<br/>
+					{{ command.param3name }}
+					<input type="text" name="{{ command.param3 }}" value=""/>
+				{% endif%}
+				<input type="hidden" name="command" value="{{ command.command }}"/>
+				<br/>
+				<input type="submit" value="{{ command.name }}"/>
+			</form>
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}
 </div>
 </body>
 </html>

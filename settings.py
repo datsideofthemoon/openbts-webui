@@ -12,6 +12,9 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+OPENBTS_PATH = "/home/digiman/openbts/apps"
+
 MAIN_SECTIONS = [("GSM Radio",
 	['GSM.Radio.Band','GSM.Radio.C0'],
 	['GSM operating band','ARFCN']), 
