@@ -68,13 +68,14 @@ def main(request):
 
 def advanced(request):
 	if request.method == 'POST':
-		cursor = connection.cursor()
 		for key, value in request.POST.iteritems():
+			param=Parameter.objects.filter(keystring=key)
+			param=param[0]
 			if value=="[NULL]" :
-				cursor.execute("UPDATE CONFIG SET VALUESTRING = null WHERE KEYSTRING = %s", [key])
-			else:
-				cursor.execute("UPDATE CONFIG SET VALUESTRING = %s WHERE KEYSTRING = %s", [value,key])
-			transaction.commit_unless_managed()
+				value=None
+			NewParam=Parameter(keystring=param.keystring,valuestring=value,static=param.static,optional=param.optional,comments=param.comments)
+			NewParam.save()
+	
 	table=Parameter.objects.all() 
 	datalist=[]
 	for prefix in settings.ADV_PREFIXES:
@@ -258,7 +259,6 @@ def isProcessRunning(process_name):
 				return True
 	return False
 	
-		
 def actions(request):
 	if request.method == 'POST':
 		res=''
@@ -396,4 +396,36 @@ def dialdata(request):
 		'mastername': "OpenBTS",
 		'pagename': "Dial Data",
 		'dialdata': dialdata,
+		})
+
+def smqmain(request):
+	return render_to_response('smq_main.html', {
+		'mastername': "Smqueue",
+		'pagename': "Main",
+		'sectionlist': None,
+		})
+
+def smqadvanced(request):
+	if request.method == 'POST':
+		for key, value in request.POST.iteritems():
+			param=Parameter.objects.using('smqueue').filter(keystring=key)
+			param=param[0]
+			if value=="[NULL]" :
+				value=None
+			NewParam=Parameter(keystring=param.keystring,valuestring=value,static=param.static,optional=param.optional,comments=param.comments)
+			NewParam.save(using='smqueue')
+			
+	table=Parameter.objects.using('smqueue').all() 
+	datalist=[]
+	for prefix in settings.SMQ_ADV_PREFIXES:
+		tempparams=[]
+		for row in table:
+			if row.keystring.startswith(prefix): #find keystring in table by prefix
+				tempparams.append(row) #append .parameter, .value, .comment to output list
+		if len(tempparams)>0:
+			datalist.append(Section(prefix,tempparams))
+	return render_to_response('smq_advanced.html', {
+		'mastername': "Smqueue",
+		'pagename': "Advanced",
+		'sectionlist': datalist,
 		})

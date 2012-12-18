@@ -28,6 +28,7 @@ MAIN_SECTIONS = [("GSM Radio",
 	['Control.LUR.OpenRegistration'],
 	['Open Registration'])]
 
+SMQ_ADV_PREFIXES=['LOG','SIP','Asterisk','Debug','SMS','Bounce','SC','SubscriberRegistry']
 
 ADV_PREFIXES=['CLI',
 			'Control.GSMTAP',
@@ -74,6 +75,14 @@ DATABASES = {
         'asterisk': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': '/var/lib/asterisk/sqlite3dir/sqlite3.db',                      # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    },
+        'smqueue': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '/etc/OpenBTS/smqueue.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
