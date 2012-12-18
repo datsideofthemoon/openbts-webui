@@ -128,19 +128,30 @@ def parseCalls(string):
 					
 			cSIPID=tempcall[5].split('=')
 			cSIPID=cSIPID[1]
+			
+			if "SMS" in call:
+				cCID=" "
 					
-			cCID=tempcall[8].split('=')
-			cCID=cCID[1]
+				cGSMState=tempcall[8].split('=')
+				cGSMState=cGSMState[1]
 					
-			cGSMState=tempcall[9].split('=')
-			cGSMState=cGSMState[1]
+				cSIPState=tempcall[9].split('=')
+				cSIPState=cSIPState[1]
 					
-			cSIPState=tempcall[10].split('=')
-			cSIPState=cSIPState[1]
+				cTime=tempcall[10]
+				cTime=cTime[1:]
+			else:
+				cCID=tempcall[8].split('=')
+				cCID=cCID[1]
 					
-			cTime=tempcall[11]
-			cTime=cTime[1:]
+				cGSMState=tempcall[9].split('=')
+				cGSMState=cGSMState[1]
 					
+				cSIPState=tempcall[10].split('=')
+				cSIPState=cSIPState[1]
+					
+				cTime=tempcall[11]
+				cTime=cTime[1:]
 			tempcall=[cID,cIMSI,cSIPID,cCID,cGSMState,cSIPState,cTime]
 			calls.append(tempcall)
 	else:
