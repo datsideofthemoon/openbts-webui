@@ -14,8 +14,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf.urls.defaults import patterns, include, url
-from webgui.views import main, advanced, status, actions, dialdata
 from django.conf import settings
+
+#OpenBTS:
+from webgui.views import main, advanced, status, actions, dialdata
 
 urlpatterns = patterns('',
     # Examples:
@@ -25,11 +27,13 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
+    #Media static files:
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-    url(r'^webgui/main/', main),
-    url(r'^webgui/advanced/', advanced),
-    url(r'^webgui/status/', status),
-    url(r'^webgui/dialdata/', dialdata),
-    url(r'^webgui/actions/', actions),
+    
+    #OpenBTS:
+    url(r'^openbts/main/', main),
+    url(r'^openbts/advanced/', advanced),
+    url(r'^openbts/status/', status),
+    url(r'^openbts/dialdata/', dialdata),
+    url(r'^openbts/actions/', actions),
 )
