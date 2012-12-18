@@ -25,12 +25,15 @@ from django.db import models
 class Parameter(models.Model):
 	keystring = models.CharField(max_length=200, primary_key=True, null=False, db_column='KEYSTRING')
 	valuestring = models.CharField(max_length=200, null=True, db_column='VALUESTRING')
+	static=models.IntegerField()
+	optional=models.IntegerField()
 	comments = models.TextField(null=True, db_column='COMMENTS')
 	class Meta:
 		db_table = 'CONFIG'
 
 class Dialdata(models.Model):
-	dialerid = models.CharField(max_length=40, primary_key=True, null=False, db_column='exten')
+	id = models.IntegerField(primary_key=True,db_column='id')
+	dialerid = models.CharField(max_length=40, null=False, db_column='exten')
 	imsi = models.CharField(max_length=128, null=False, db_column='dial')
 	class Meta:
 		db_table = 'dialdata_table'

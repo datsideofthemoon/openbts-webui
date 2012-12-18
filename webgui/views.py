@@ -390,14 +390,6 @@ def actions(request):
 		'sectionlist': Sections,
 		})
 		
-def dialdata(request):
-	dialdata=Dialdata.objects.using('asterisk').all()
-	return render_to_response('dialdata.html', {
-		'mastername': "OpenBTS",
-		'pagename': "Dial Data",
-		'dialdata': dialdata,
-		})
-
 def smqmain(request):
 	return render_to_response('smq_main.html', {
 		'mastername': "Smqueue",
@@ -428,4 +420,12 @@ def smqadvanced(request):
 		'mastername': "Smqueue",
 		'pagename': "Advanced",
 		'sectionlist': datalist,
+		})
+
+def sbrdialdata(request):
+	dialdata=Dialdata.objects.using('asterisk').all()
+	return render_to_response('sbr_dialdata.html', {
+		'mastername': "SubscriberRegistry",
+		'pagename': "Dial Data",
+		'dialdata': dialdata,
 		})

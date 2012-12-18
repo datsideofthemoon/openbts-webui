@@ -17,9 +17,11 @@ from django.conf.urls.defaults import patterns, include, url
 from django.conf import settings
 
 #OpenBTS:
-from webgui.views import main, advanced, status, actions, dialdata
+from webgui.views import main, advanced, status, actions
 #Smqueue
 from webgui.views import smqmain, smqadvanced
+#SubscriberRegistry
+from webgui.views import sbrdialdata
 
 urlpatterns = patterns('',
     # Examples:
@@ -36,9 +38,10 @@ urlpatterns = patterns('',
     url(r'^openbts/main/', main),
     url(r'^openbts/advanced/', advanced),
     url(r'^openbts/status/', status),
-    url(r'^openbts/dialdata/', dialdata),
     url(r'^openbts/actions/', actions),
     #Smqueue:
     url(r'^smqueue/main/', smqmain),
     url(r'^smqueue/advanced/', smqadvanced),
+    #SubscriberRegistry
+    url(r'^subscriberregistry/dialdata/', sbrdialdata),
 )

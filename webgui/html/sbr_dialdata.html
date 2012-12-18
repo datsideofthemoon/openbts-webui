@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>OpenBTS - {{ pagename }}</title>
+	<title>SubscriberRegistry - {{ pagename }}</title>
 	<link rel="stylesheet" type="text/css" href="/media/css/style.css" />
 </head>
 <body>
@@ -12,18 +12,13 @@
 		<ul>
 			<li {% if mastername == "OpenBTS" %}class="active"{% endif %}><a href='/openbts/main'><span>OpenBTS</span></a></li>
 			<li {% if mastername == "Smqueue" %}class="active"{% endif %}><a href='/smqueue/advanced'><span>Smqueue</span></a></li>
-			<li {% if mastername == "SubscriberRegistry" %}class="active"{% endif %}><a href='/subscriberregistry'><span>SubscriberRegistry</span></a></li>
+			<li {% if mastername == "SubscriberRegistry" %}class="active"{% endif %}><a href='/subscriberregistry/dialdata'><span>SubscriberRegistry</span></a></li>
 			<li {% if mastername == "FreeSwitch" %}class="active"{% endif %}><a href='/freeswitch'><span>FreeSwitch</span></a></li>
 		</ul>
 	</div>
 	<div id="submenu">
 		<ul class="submenu">
-			<li><a href="/openbts/wizard" {% if pagename == "Wizard" %}class="active"{% endif %}><span>Wizard</span></a></li>
-			<li><a href="/openbts/main" {% if pagename == "Main" %}class="active"{% endif %}><span>Main</span></a></li>
-			<li><a href="/openbts/actions" {% if pagename == "Actions" %}class="active"{% endif %}><span>Actions</span></a></li>
-			<li><a href="/openbts/status" {% if pagename == "Status" %}class="active"{% endif %}><span>Live Status</span></a></li>
-			<li><a href="/openbts/dialdata" {% if pagename == "Dial Data" %}class="active"{% endif %}><span>Dial Data</span></a></li>
-			<li><a href="/openbts/advanced" {% if pagename == "Advanced" %}class="active"{% endif %}><span>Advanced</span></a></li>
+			<li><a href="/subscriberregistry/dialdata" {% if pagename == "Dial Data" %}class="active"{% endif %}><span>Dial Data</span></a></li>
 		</ul>
 	</div>
 <div id="content">
@@ -31,9 +26,9 @@
 	<div class="borderdiv">
 	<h2>Dial Data</h2>
 	<table class="status">
-		<tr class="trheader"><td>Caller ID</td><td>IMSI</td></tr>
+		<tr class="trheader"><td>ID</td><td>Caller ID</td><td>IMSI</td></tr>
 		{% for line in dialdata %}
-		<tr><td>{{ line.dialerid }}</td><td>{{ line.imsi }}</td></tr>
+		<tr><td>{{ line.id }}</td><td>{{ line.dialerid }}</td><td>{{ line.imsi }}</td></tr>
 		{% endfor %}
 	</table>
 	</div>
