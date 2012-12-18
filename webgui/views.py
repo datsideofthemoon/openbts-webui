@@ -40,13 +40,14 @@ class Section:
 
 def main(request):
 	if request.method == 'POST':
-		cursor = connection.cursor()
 		for key, value in request.POST.iteritems():
+			param=Parameter.objects.filter(keystring=key)
+			param=param[0]
 			if value=="[NULL]" :
-				cursor.execute("UPDATE CONFIG SET VALUESTRING = null WHERE KEYSTRING = %s", [key])
-			else:
-				cursor.execute("UPDATE CONFIG SET VALUESTRING = %s WHERE KEYSTRING = %s", [value,key])
-			transaction.commit_unless_managed()
+				value=None
+			NewParam=Parameter(keystring=param.keystring,valuestring=value,static=param.static,optional=param.optional,comments=param.comments)
+			NewParam.save()
+			
 	table=Parameter.objects.all() 
 	datalist=[]
 	for section in settings.MAIN_SECTIONS:
