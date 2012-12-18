@@ -30,6 +30,7 @@
 {% if errorstr %}
 <h2>{{ errorstr }}</h2>
 {% endif %}
+
 {% if alarms %}
 	<div class="borderdiv">
 	<h2>Alarms</h2>
@@ -39,7 +40,7 @@
 		{% endfor %}
 	</table>
 	</div>
-	</br>
+	<br/>
 {% endif %}
 
 {% if cellid %}
@@ -79,7 +80,53 @@
 	</div>
 {% endif %}
 
-</br>
+<br/>
+
+{% if uptime %}
+	<div class="borderdiv">
+	<h2>Uptime</h2>
+	<table class="status">
+		{% for row in uptime %}
+		<tr class="trheader"><td>{{ row }}</td></tr>
+		{% endfor %}
+	</table>
+	</div>
+{% endif %}
+
+{% if noise %}
+	<div class="borderdiv">
+	<h2>Noise</h2>
+	<table class="status">
+		{% for row in noise %}
+		<tr class="trheader"><td>{{ row }}</td></tr>
+		{% endfor %}
+	</table>
+	</div>
+{% endif %}
+
+{% if regperiod %}
+	<div class="borderdiv">
+	<h2>Registration period</h2>
+	<table class="status">
+		{% for row in regperiod %}
+		<tr class="trheader"><td>{{ row }}</td></tr>
+		{% endfor %}
+	</table>
+	</div>
+{% endif %}
+
+{% if version %}
+	<div class="borderdiv">
+	<h2>Version</h2>
+	<table class="status">
+		{% for row in version %}
+		<tr class="trheader"><td>{{ row }}</td></tr>
+		{% endfor %}
+	</table>
+	</div>
+{% endif %}
+
+<br/>
 
 {% if chans %}
 	<div class="borderdiv">
@@ -91,7 +138,7 @@
 	{% endfor %}
 	</table>
 	</div>
-	</br>
+	<br/>
 {% endif %}
 
 {% if tmsis %}
@@ -121,7 +168,7 @@
 	{% endfor %}
 	</table>
 	</div>
-	</br>
+	<br/>
 {% endif %}
 </div>
 </body>

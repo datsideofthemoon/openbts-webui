@@ -212,10 +212,38 @@ def parseTMSIs(string):
 		tmsis=" "
 	return tmsis
 
+def parseUptime(string):
+	uptime=[]
+	tmp=string.split('\n')
+	uptime.append(tmp[0])
+	uptime.append(tmp[1])
+	return uptime
+	
+def parseNoise(string):
+	noise=[]
+	tmp=string.split('\n')
+	noise.append(tmp[0])
+	noise.append(tmp[1])
+	return noise
+
+def parseRegperiod(string):
+	regperiod=[]
+	tmp=string.split('\n')
+	regperiod.append(tmp[0])
+	regperiod.append(tmp[1])
+	return regperiod
+
+def parseVersion(string):
+	vers=[]
+	tmp=string.split('\n')
+	vers.append(tmp[0])
+	return vers
+	
 def status(request):
 	if request.method == 'POST':
 		get_cli_command('tmsis clear')
-	commands=['calls','cellid','chans','load','power','tmsis']
+		
+	commands=['calls','cellid','chans','load','power','tmsis','uptime','regperiod','noise','version']
 	alarms= None
 	calls = None
 	cellid= None
@@ -223,6 +251,11 @@ def status(request):
 	load  = None
 	power = None
 	tmsis = None
+	uptime= None
+	regperiod=None
+	noise=None
+	vers=None
+	
 	for command in commands:
 		res=get_cli_command(command)
 		if res.startswith('Error'):
@@ -230,6 +263,7 @@ def status(request):
 			'mastername': "OpenBTS",
 			'pagename': "Status",
 			'errorstr':res,})
+			
 		if command=='alarms':
 			alarms=parseAlarms(res)
 		elif command=='calls':
@@ -244,7 +278,15 @@ def status(request):
 			power=parsePower(res)
 		elif command=='tmsis':
 			tmsis=parseTMSIs(res)
-	
+		elif command=='uptime':
+			uptime=parseUptime(res)
+		elif command=='regperiod':
+			regperiod=parseRegperiod(res)
+		elif command=='noise':
+			noise=parseNoise(res)
+		elif command=='version':
+			vers=parseVersion(res)
+		
 	return render_to_response('status.html', {
 		'mastername': "OpenBTS",
 		'pagename': "Status",
@@ -255,6 +297,10 @@ def status(request):
 		'load' :load,
 		'power':power,
 		'tmsis':tmsis,
+		'uptime':uptime,
+		'regperiod':regperiod,
+		'noise':noise,
+		'version':vers,
 		})
 		
 def isProcessRunning(process_name):
