@@ -447,6 +447,34 @@ def actions(request):
 		'pagename': "Actions",
 		'sectionlist': Sections,
 		})
+
+def smqactions(request):
+	if request.method == 'POST':
+		if request.POST['command']=='start':
+			#start  smqueue
+			os.chdir(settings.SMQUEUE_PATH)
+			cmd= settings.SMQUEUE_PATH + "/smqueue"
+			p = subprocess.Popen(args=["gnome-terminal", "-e",'sudo '+cmd])
+			time.sleep(2)
+			
+		elif request.POST['command']=='stop':
+			#stop  smqueue
+			os.system("killall -9 smqueue")
+
+	Sections=[]
+	
+	#Start/stop smqueue
+	if isProcessRunning('smqueue'):
+		startstop=ActionsSection('Stop Smqueue',None,None,None,None,None,None,'stop')
+	else:
+		startstop=ActionsSection('Start Smqueue',None,None,None,None,None,None,'start')
+		
+	Sections.append(startstop)
+	return render_to_response('smq_actions.html', {
+		'mastername': "Smqueue",
+		'pagename': "Actions",
+		'sectionlist': Sections,
+		})	
 		
 def smqmain(request):
 	return render_to_response('smq_main.html', {
@@ -487,3 +515,31 @@ def sbrdialdata(request):
 		'pagename': "Dial Data",
 		'dialdata': dialdata,
 		})
+
+def sbractions(request):
+	if request.method == 'POST':
+		if request.POST['command']=='start':
+			#start  subscriberRegistry
+			os.chdir(settings.SUBSCRIBERREGISTRY_PATH)
+			cmd = settings.SUBSCRIBERREGISTRY_PATH + "/sipauthserve"
+			p = subprocess.Popen(args=["gnome-terminal", "-e",'sudo '+cmd])
+			time.sleep(2)
+			
+		elif request.POST['command']=='stop':
+			#stop  subscriberRegistry
+			os.system("killall -9 sipauthserve")
+
+	Sections=[]
+	
+	#Start/stop subscriberRegistry
+	if isProcessRunning('sipauthserve'):
+		startstop=ActionsSection('Stop SubscriberRegistry',None,None,None,None,None,None,'stop')
+	else:
+		startstop=ActionsSection('Start SubscriberRegistry',None,None,None,None,None,None,'start')
+		
+	Sections.append(startstop)
+	return render_to_response('sbr_actions.html', {
+		'mastername': "SubscriberRegistry",
+		'pagename': "Actions",
+		'sectionlist': Sections,
+		})	

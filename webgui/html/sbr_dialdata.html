@@ -11,13 +11,14 @@
 	<div id='cssmenu'>
 		<ul>
 			<li {% if mastername == "OpenBTS" %}class="active"{% endif %}><a href='/openbts/main'><span>OpenBTS</span></a></li>
-			<li {% if mastername == "Smqueue" %}class="active"{% endif %}><a href='/smqueue/advanced'><span>Smqueue</span></a></li>
-			<li {% if mastername == "SubscriberRegistry" %}class="active"{% endif %}><a href='/subscriberregistry/dialdata'><span>SubscriberRegistry</span></a></li>
+			<li {% if mastername == "Smqueue" %}class="active"{% endif %}><a href='/smqueue/actions'><span>Smqueue</span></a></li>
+			<li {% if mastername == "SubscriberRegistry" %}class="active"{% endif %}><a href='/subscriberregistry/actions'><span>SubscriberRegistry</span></a></li>
 			<li {% if mastername == "FreeSwitch" %}class="active"{% endif %}><a href='/freeswitch'><span>FreeSwitch</span></a></li>
 		</ul>
 	</div>
 	<div id="submenu">
 		<ul class="submenu">
+			<li><a href="/subscriberregistry/actions" {% if pagename == "Actions" %}class="active"{% endif %}><span>Actions</span></a></li>
 			<li><a href="/subscriberregistry/dialdata" {% if pagename == "Dial Data" %}class="active"{% endif %}><span>Dial Data</span></a></li>
 		</ul>
 	</div>

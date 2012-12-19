@@ -14,6 +14,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 OPENBTS_PATH = "/home/digiman/openbts/apps"
+SMQUEUE_PATH = "/home/digiman/smqueue/smqueue"
+SUBSCRIBERREGISTRY_PATH = "/home/digiman/subscriberRegistry"
 
 MAIN_SECTIONS = [("GSM Radio",
 	['GSM.Radio.Band','GSM.Radio.C0'],
