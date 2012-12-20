@@ -543,3 +543,27 @@ def sbractions(request):
 		'pagename': "Actions",
 		'sectionlist': Sections,
 		})	
+def sbradvanced(request):
+	if request.method == 'POST':
+		for key, value in request.POST.iteritems():
+			param=Parameter.objects.using('subscriberregistry').filter(keystring=key)
+			param=param[0]
+			if value=="[NULL]" :
+				value=None
+			NewParam=Parameter(keystring=param.keystring,valuestring=value,static=param.static,optional=param.optional,comments=param.comments)
+			NewParam.save(using='subscriberregistry')
+			
+	table=Parameter.objects.using('subscriberregistry').all() 
+	datalist=[]
+	for prefix in settings.SBR_ADV_PREFIXES:
+		tempparams=[]
+		for row in table:
+			if row.keystring.startswith(prefix): #find keystring in table by prefix
+				tempparams.append(row) #append .parameter, .value, .comment to output list
+		if len(tempparams)>0:
+			datalist.append(Section(prefix,tempparams))
+	return render_to_response('sbr_advanced.html', {
+		'mastername': "SubscriberRegistry",
+		'pagename': "Advanced",
+		'sectionlist': datalist,
+		})

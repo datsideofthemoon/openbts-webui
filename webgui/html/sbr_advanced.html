@@ -36,44 +36,36 @@
 		</ul>
 	</div>
 <div id="content">
-{% if error %}
-	<div class="borderdiv">
-		<h2>{{ error }}</h2>
-	</div>
-{% endif %}
-
 {% if sectionlist %}
-	<ul id="tabs-titles">
-		{% for command in sectionlist %}
-			<li {% if forloop.first %}class="current"{% endif %}>{{ command.name }}</li>
-		{% endfor %}
-	</ul>
-	<div id="tabs-contents">
-		{% for command in sectionlist %}
-			<div class="content">
-			<form method="post" action="/subscriberregistry/actions/">
-				{% if command.param1name %}
-					<br/>
-					{{ command.param1name }}
-					<input type="text" name="{{ command.param1 }}" value=""/>
-				{% endif%}
-				{% if command.param2name %}
-					<br/>
-					{{ command.param2name }}
-					<input type="text" name="{{ command.param2 }}" value=""/>
-				{% endif%}
-				{% if command.param3name %}
-					<br/>
-					{{ command.param3name }}
-					<input type="text" name="{{ command.param3 }}" value=""/>
-				{% endif%}
-				<input type="hidden" name="command" value="{{ command.command }}"/>
-				<br/>
-				<input type="submit" value="{{ command.name }}"/>
-			</form>
-			</div>
-		{% endfor %}
-	</div>
+<ul id="tabs-titles">
+{% for section in sectionlist %}
+	<li {% if forloop.first %}class="current"{% endif %}>{{ section.name }}</li>
+{% endfor %}
+</ul>
+<div id="tabs-contents">
+	{% for section in sectionlist %}
+		<div class="content">
+		<form method="post" action="/subscriberregistry/advanced/">
+			<table>
+				{% for item in section.paramlist %}
+					<tr>
+					<td class="parameter">{{ item.keystring }}</td>
+						<td>
+							<input type="text" name="{{ item.keystring }}" value="{% if item.valuestring %}{{ item.valuestring }}{% else %}[NULL]{% endif %}" class="input"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="comment">{{ item.comments }}</td>
+					</tr>
+				{% endfor %}
+					<tr>
+						<td><input type="submit" value="Save" class="btnsave"/></td>
+					</tr>
+			</table>
+		</form>
+		</div>
+	{% endfor %}
+</div>
 {% endif %}
 </div>
 </body>

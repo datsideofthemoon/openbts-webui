@@ -21,7 +21,7 @@ from webgui.views import main, advanced, status, actions
 #Smqueue
 from webgui.views import smqmain, smqadvanced, smqactions
 #SubscriberRegistry
-from webgui.views import sbrdialdata, sbractions
+from webgui.views import sbrdialdata, sbractions, sbradvanced
 
 urlpatterns = patterns('',
     # Examples:
@@ -45,5 +45,6 @@ urlpatterns = patterns('',
     url(r'^smqueue/advanced/', smqadvanced),
     #SubscriberRegistry
     url(r'^subscriberregistry/actions/', sbractions),
+    url(r'^subscriberregistry/advanced/', sbradvanced),
     url(r'^subscriberregistry/dialdata/', sbrdialdata),
 )
