@@ -17,7 +17,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.conf import settings
 
 #OpenBTS:
-from webgui.views import main, advanced, status, actions
+from webgui.views import main, advanced, status, actions, addparam
 #Smqueue
 from webgui.views import smqmain, smqadvanced, smqactions
 #SubscriberRegistry
@@ -40,6 +40,7 @@ urlpatterns = patterns('',
     url(r'^openbts/advanced/', advanced),
     url(r'^openbts/status/', status),
     url(r'^openbts/actions/', actions),
+    url(r'^openbts/addparam/', addparam),
     #Smqueue:
     url(r'^smqueue/actions/', smqactions),
     url(r'^smqueue/main/', smqmain),

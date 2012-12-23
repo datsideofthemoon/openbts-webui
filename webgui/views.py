@@ -69,13 +69,21 @@ def main(request):
 
 def advanced(request):
 	if request.method == 'POST':
-		for key, value in request.POST.iteritems():
-			param=Parameter.objects.filter(keystring=key)
-			param=param[0]
-			if value=="[NULL]" :
-				value=None
-			NewParam=Parameter(keystring=param.keystring,valuestring=value,static=param.static,optional=param.optional,comments=param.comments)
-			NewParam.save()
+		if 'paramToDelete' in request.POST: #Delete parameter from DB
+			paramToDelete=request.POST['paramToDelete']
+			param = Parameter.objects.get(keystring=paramToDelete)
+			param.delete()
+		else:								#Save parameters to DB
+			for key, value in request.POST.iteritems():
+				param=Parameter.objects.filter(keystring=key)
+				try:
+					param=param[0]
+				except IndexError:
+					break;
+				if value=="[NULL]" :
+					value=None
+				NewParam=Parameter(keystring=param.keystring,valuestring=value,static=param.static,optional=param.optional,comments=param.comments)
+				NewParam.save()
 	
 	table=Parameter.objects.all() 
 	datalist=[]
@@ -89,7 +97,26 @@ def advanced(request):
 	'mastername': "OpenBTS",
 	'pagename': "Advanced",	
 	'sectionlist': datalist,})
+	
+def addparam(request):
+	key="".join(request.POST['keystring'].split()) #remove all spaces 
+	value=request.POST['valuestring']
+	comments=request.POST['comments']
+	if not key: return HttpResponseNotFound("Please enter parameter name.")
+	try:
+		static=int(request.POST['static']) #int
+		optional=int(request.POST['optional']) #int
+	except ValueError:
+		return HttpResponseNotFound("Please enter 0 or 1 in Static and Optional fields.")
+	
+	for row in Parameter.objects.filter(keystring=key):
+		if row.keystring==key:
+			return HttpResponseNotFound("Key is already exists in DB config table!")
+	NewParam=Parameter(keystring=key,valuestring=value,static=static,optional=optional,comments=comments)
+	NewParam.save()
+	return advanced(request)
 
+		
 def get_cli_command(command):
 	global SOCKETNAME
 	global SOCK
