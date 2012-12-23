@@ -3,7 +3,10 @@ body
 	background-color: #FFFFFF;
 	font: 12pt/10pt Arial, sans-serif;
 }
-
+#logo
+{
+margin:5px;
+}
 #content 
 {
 	margin-left:0px;
