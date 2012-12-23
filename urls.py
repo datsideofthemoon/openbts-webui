@@ -34,6 +34,7 @@ urlpatterns = patterns('',
     #Media static files:
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
+    url(r'^$', main),
     #OpenBTS:
     url(r'^openbts/main/', main),
     url(r'^openbts/advanced/', advanced),
