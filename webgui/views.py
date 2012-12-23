@@ -114,49 +114,30 @@ def parseAlarms(string):
 	return string.split('\n')
 
 def parseCalls(string):
-	calls=[]
 	callsList=string.split('\n')
 	callsList.pop()
 	callsList.pop()
 	callsList.pop()
+	calls=[]
 	if len(callsList)>0:
 		for call in callsList:
 			tempcall=call.split(' ')
-			cID=tempcall[0]
-					
-			cIMSI=tempcall[3].split('=')
-			cIMSI=cIMSI[1]
-					
-			cSIPID=tempcall[5].split('=')
-			cSIPID=cSIPID[1]
+
+			cID=      tempcall[0]			
+			cIMSI=    tempcall[3].split('=')[1]
+			cSIPID=   tempcall[5].split('=')[1]
+			cCID=     tempcall[7]+" "+tempcall[8].split('=')[1]
+			cGSMState=tempcall[9].split('=')[1]
+			cSIPState=tempcall[10].split('=')[1]
+			cTime=    tempcall[11]
+			cTime=cTime[1:]		
 			
-			if "SMS" in call:
-				cCID=" "
-					
-				cGSMState=tempcall[8].split('=')
-				cGSMState=cGSMState[1]
-					
-				cSIPState=tempcall[9].split('=')
-				cSIPState=cSIPState[1]
-					
-				cTime=tempcall[10]
-				cTime=cTime[1:]
-			else:
-				cCID=tempcall[8].split('=')
-				cCID=cCID[1]
-					
-				cGSMState=tempcall[9].split('=')
-				cGSMState=cGSMState[1]
-					
-				cSIPState=tempcall[10].split('=')
-				cSIPState=cSIPState[1]
-					
-				cTime=tempcall[11]
-				cTime=cTime[1:]
+			if " MTSMS " in call:
+				cCID=tempcall[8].split('=')[1]
 			tempcall=[cID,cIMSI,cSIPID,cCID,cGSMState,cSIPState,cTime]
 			calls.append(tempcall)
 	else:
-		calls=' '		
+		calls=' '
 	return calls
 
 def parseCellID(string):
@@ -240,9 +221,10 @@ def parseVersion(string):
 	return vers
 	
 def status(request):
+
 	if request.method == 'POST':
 		get_cli_command('tmsis clear')
-		
+	
 	commands=['calls','cellid','chans','load','power','tmsis','uptime','regperiod','noise','version']
 	alarms= None
 	calls = None
@@ -256,6 +238,7 @@ def status(request):
 	noise=None
 	vers=None
 	
+
 	for command in commands:
 		res=get_cli_command(command)
 		if res.startswith('Error'):
@@ -263,11 +246,13 @@ def status(request):
 			'mastername': "OpenBTS",
 			'pagename': "Status",
 			'errorstr':res,})
-			
+
 		if command=='alarms':
 			alarms=parseAlarms(res)
 		elif command=='calls':
+
 			calls=parseCalls(res)
+			
 		elif command=='cellid':
 			cellid=parseCellID(res)
 		elif command=='chans':
@@ -324,7 +309,7 @@ def actions(request):
 			#start  openbts
 			os.chdir(settings.OPENBTS_PATH)
 			cmd= settings.OPENBTS_PATH + "/OpenBTS"
-			p = subprocess.Popen(args=["gnome-terminal", "-e",'sudo '+cmd])
+			p = subprocess.Popen(args=["screen", "-S",cmd])
 			time.sleep(2)
 			
 		elif request.POST['command']=='stop':
