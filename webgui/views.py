@@ -1,4 +1,4 @@
-# Copyright (C) 2012 Daniil Egorov <datsideofthemoon@gmail.com>
+# Copyright (C) 2013 Daniil Egorov <datsideofthemoon@gmail.com>
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,8 @@ from django.conf import settings
 from webgui.models import Parameter, Dialdata
 from django.db import connection, transaction
 from django.shortcuts import render_to_response
-from django.http import HttpResponseNotFound
+from django.http import HttpResponse
+import json
 
 SOCKETNAME=''
 SOCK = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
@@ -164,7 +165,7 @@ def parseCalls(string):
 			tempcall=[cID,cIMSI,cSIPID,cCID,cGSMState,cSIPState,cTime]
 			calls.append(tempcall)
 	else:
-		calls=' '
+		calls.append([' ',' ',' ',' ',' ',' ',' '])
 	return calls
 
 def parseCellID(string):
@@ -187,7 +188,7 @@ def parseChans(string):
 			val=val.lstrip()
 			chans.append(val.split(' '))
 	else:
-		chans=" "
+		chans.append(['','','','','','','','','',''])
 	return chans
 
 def parseLoad(string):
@@ -217,7 +218,7 @@ def parseTMSIs(string):
 			val=val.lstrip() #remove leading space
 			tmsis.append(val.split(' '))
 	else:
-		tmsis=" "
+		tmsis.append(['','','',''])
 	return tmsis
 
 def parseUptime(string):
@@ -242,78 +243,44 @@ def parseRegperiod(string):
 	return regperiod
 
 def parseVersion(string):
-	vers=[]
 	tmp=string.split('\n')
-	vers.append(tmp[0])
-	return vers
-	
+	return tmp[0]
+
 def status(request):
+	if request.is_ajax():
+		commands=['cellid','load','power','noise','regperiod','uptime','version','chans','tmsis','calls']
+		returnValue=[];
+		for command in commands:
+			res=get_cli_command(command)
+			if res.startswith('Error'):
+				return HttpResponse(json.dumps('not connected'))
+			else:
+				if command=='cellid':
+					returnValue.append(parseCellID(res))
+				elif command=='load':
+					returnValue.append(parseLoad(res))
+				elif command=='power':
+					returnValue.append(parsePower(res))
+				elif command=='noise':
+					returnValue.append(parseNoise(res))
+				elif command=='regperiod':
+					returnValue.append(parseRegperiod(res))
+				elif command=='uptime':
+					returnValue.append(parsePower(res))
+				elif command=='version':
+					returnValue.append(parseVersion(res))
+				elif command=='chans':
+					returnValue.append(parseChans(res))
+				elif command=='tmsis':
+					returnValue.append(parseTMSIs(res))
+				elif command=='calls':
+					returnValue.append(parseCalls(res))
+		return HttpResponse(json.dumps(returnValue))
 
-	if request.method == 'POST':
-		get_cli_command('tmsis clear')
-	
-	commands=['calls','cellid','chans','load','power','tmsis','uptime','regperiod','noise','version']
-	alarms= None
-	calls = None
-	cellid= None
-	chans = None
-	load  = None
-	power = None
-	tmsis = None
-	uptime= None
-	regperiod=None
-	noise=None
-	vers=None
-	
-
-	for command in commands:
-		res=get_cli_command(command)
-		if res.startswith('Error'):
-			return render_to_response('status.html', {
-			'mastername': "OpenBTS",
-			'pagename': "Status",
-			'errorstr':res,})
-
-		if command=='alarms':
-			alarms=parseAlarms(res)
-		elif command=='calls':
-
-			calls=parseCalls(res)
-			
-		elif command=='cellid':
-			cellid=parseCellID(res)
-		elif command=='chans':
-			chans=parseChans(res)
-		elif command=='load':
-			load=parseLoad(res)
-		elif command=='power':
-			power=parsePower(res)
-		elif command=='tmsis':
-			tmsis=parseTMSIs(res)
-		elif command=='uptime':
-			uptime=parseUptime(res)
-		elif command=='regperiod':
-			regperiod=parseRegperiod(res)
-		elif command=='noise':
-			noise=parseNoise(res)
-		elif command=='version':
-			vers=parseVersion(res)
-		
-	return render_to_response('status.html', {
+	else:
+		return render_to_response('status_ajax.html', {
 		'mastername': "OpenBTS",
-		'pagename': "Status",
-		'alarms':alarms,
-		'calls':calls,
-		'chans':chans,
-		'cellid':cellid,
-		'load' :load,
-		'power':power,
-		'tmsis':tmsis,
-		'uptime':uptime,
-		'regperiod':regperiod,
-		'noise':noise,
-		'version':vers,
-		})
+		'pagename': "Status",})
 		
 def isProcessRunning(process_name):
 	ps = subprocess.Popen("ps -A", shell=True, stdout=subprocess.PIPE)
@@ -336,7 +303,7 @@ def actions(request):
 			#start  openbts
 			os.chdir(settings.OPENBTS_PATH)
 			cmd= settings.OPENBTS_PATH + "/OpenBTS"
-			p = subprocess.Popen(args=["screen", "-S",cmd])
+			p = subprocess.Popen(args=["gnome-terminal", "-e",cmd])
 			time.sleep(2)
 			
 		elif request.POST['command']=='stop':
