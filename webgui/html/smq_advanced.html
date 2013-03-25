@@ -25,14 +25,13 @@
 			<li {% if mastername == "OpenBTS" %}class="active"{% endif %}><a href='/openbts/main'><span>OpenBTS</span></a></li>
 			<li {% if mastername == "Smqueue" %}class="active"{% endif %}><a href='/smqueue/actions'><span>Smqueue</span></a></li>
 			<li {% if mastername == "SubscriberRegistry" %}class="active"{% endif %}><a href='/subscriberregistry/actions'><span>SubscriberRegistry</span></a></li>
-			<li {% if mastername == "FreeSwitch" %}class="active"{% endif %}><a href='/freeswitch'><span>FreeSwitch</span></a></li>
+			
 		</ul>
 	</div>
 	<div id="submenu">
 		<ul class="submenu">
 			<li><a href="/smqueue/actions" {% if pagename == "Actions" %}class="active"{% endif %}><span>Actions</span></a></li>
-			<li><a href="/smqueue/main" {% if pagename == "Main" %}class="active"{% endif %}><span>Main</span></a></li>
-			<li><a href="/smqueue/advanced" {% if pagename == "Advanced" %}class="active"{% endif %}><span>Advanced</span></a></li>
+			<li><a href="/smqueue/configuration" {% if pagename == "Configuration" %}class="active"{% endif %}><span>Configuration</span></a></li>
 		</ul>
 	</div>
 <div id="content">
@@ -45,7 +44,7 @@
 <div id="tabs-contents">
 	{% for section in sectionlist %}
 		<div class="content">
-		<form method="post" action="/openbts/advanced/">
+		<form method="post" action="/smqueue/configuration/">
 			<table>
 				{% for item in section.paramlist %}
 					<tr>

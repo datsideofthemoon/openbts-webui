@@ -301,14 +301,14 @@ def actions(request):
 		res=''
 		if request.POST['command']=='start':
 			#start  openbts
-			os.chdir(settings.OPENBTS_PATH)
-			cmd= settings.OPENBTS_PATH + "/OpenBTS"
-			p = subprocess.Popen(args=["gnome-terminal", "-e",cmd])
+			#os.chdir(settings.OPENBTS_PATH)
+			cmd="sudo /etc/init.d/openbts start"
+			p = subprocess.Popen(cmd)
 			time.sleep(2)
 			
 		elif request.POST['command']=='stop':
-			#stop  openbts
-			os.system("killall -9 OpenBTS")
+			cmd="sudo /etc/init.d/openbts stop"
+			p = subprocess.Popen(cmd)
 			
 		elif request.POST['command']=='endcall':
 			transactionId=request.POST['transactionId']
@@ -431,14 +431,14 @@ def smqactions(request):
 	if request.method == 'POST':
 		if request.POST['command']=='start':
 			#start  smqueue
-			os.chdir(settings.SMQUEUE_PATH)
-			cmd= settings.SMQUEUE_PATH + "/smqueue"
-			p = subprocess.Popen(args=["gnome-terminal", "-e",'sudo '+cmd])
+			cmd="sudo /etc/init.d/smqueue start"
+			p = subprocess.Popen(cmd)
 			time.sleep(2)
 			
 		elif request.POST['command']=='stop':
 			#stop  smqueue
-			os.system("killall -9 smqueue")
+			cmd="sudo /etc/init.d/smqueue stop"
+			p = subprocess.Popen(cmd)
 
 	Sections=[]
 	
@@ -454,13 +454,6 @@ def smqactions(request):
 		'pagename': "Actions",
 		'sectionlist': Sections,
 		})	
-		
-def smqmain(request):
-	return render_to_response('smq_main.html', {
-		'mastername': "Smqueue",
-		'pagename': "Main",
-		'sectionlist': None,
-		})
 
 def smqadvanced(request):
 	if request.method == 'POST':
@@ -483,7 +476,7 @@ def smqadvanced(request):
 			datalist.append(Section(prefix,tempparams))
 	return render_to_response('smq_advanced.html', {
 		'mastername': "Smqueue",
-		'pagename': "Advanced",
+		'pagename': "Configuration",
 		'sectionlist': datalist,
 		})
 
@@ -491,7 +484,7 @@ def sbrdialdata(request):
 	dialdata=Dialdata.objects.using('asterisk').all()
 	return render_to_response('sbr_dialdata.html', {
 		'mastername': "SubscriberRegistry",
-		'pagename': "Dial Data",
+		'pagename': "Subscribers",
 		'dialdata': dialdata,
 		})
 
@@ -499,14 +492,14 @@ def sbractions(request):
 	if request.method == 'POST':
 		if request.POST['command']=='start':
 			#start  subscriberRegistry
-			os.chdir(settings.SUBSCRIBERREGISTRY_PATH)
-			cmd = settings.SUBSCRIBERREGISTRY_PATH + "/sipauthserve"
-			p = subprocess.Popen(args=["gnome-terminal", "-e",'sudo '+cmd])
+			cmd="sudo /etc/init.d/sipauthserve start"
+			p = subprocess.Popen(cmd)
 			time.sleep(2)
 			
 		elif request.POST['command']=='stop':
 			#stop  subscriberRegistry
-			os.system("killall -9 sipauthserve")
+			cmd="sudo /etc/init.d/sipauthserve stop"
+			p = subprocess.Popen(cmd)
 
 	Sections=[]
 	
@@ -543,6 +536,6 @@ def sbradvanced(request):
 			datalist.append(Section(prefix,tempparams))
 	return render_to_response('sbr_advanced.html', {
 		'mastername': "SubscriberRegistry",
-		'pagename': "Advanced",
+		'pagename': "Configuration",
 		'sectionlist': datalist,
 		})

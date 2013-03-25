@@ -19,7 +19,7 @@ from django.conf import settings
 #OpenBTS:
 from webgui.views import main, advanced, status, actions, addparam
 #Smqueue
-from webgui.views import smqmain, smqadvanced, smqactions
+from webgui.views import smqadvanced, smqactions
 #SubscriberRegistry
 from webgui.views import sbrdialdata, sbractions, sbradvanced
 
@@ -43,10 +43,9 @@ urlpatterns = patterns('',
     url(r'^openbts/addparam/', addparam),
     #Smqueue:
     url(r'^smqueue/actions/', smqactions),
-    url(r'^smqueue/main/', smqmain),
-    url(r'^smqueue/advanced/', smqadvanced),
+    url(r'^smqueue/configuration/', smqadvanced),
     #SubscriberRegistry
     url(r'^subscriberregistry/actions/', sbractions),
-    url(r'^subscriberregistry/advanced/', sbradvanced),
-    url(r'^subscriberregistry/dialdata/', sbrdialdata),
+    url(r'^subscriberregistry/configuration/', sbradvanced),
+    url(r'^subscriberregistry/subscribers/', sbrdialdata),
 )
